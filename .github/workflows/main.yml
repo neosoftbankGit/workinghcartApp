@@ -1,0 +1,21 @@
+name: Update latest tag
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update latest tag
+        run: |
+          git tag -f latest ${{ github.sha }}
+          git push origin latest --force
